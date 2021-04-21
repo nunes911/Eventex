@@ -1,1 +1,1 @@
-web: gunicorn eventex.wsgi --log-file -; python manage.py collectstatic --no-input
+web: python manage.py collectstatic --no-input; gunicorn eventex.wsgi --log-file - --log-level debug
