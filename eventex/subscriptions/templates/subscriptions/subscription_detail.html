@@ -6,6 +6,9 @@
     <div class="content row padding-bottom-3 desktop-12 container">
         <h1>Obrigada por se inscrever!</h1>
         <div class="desktop-6">
+            <p>
+                Sua inscricao foi realizada em {{ subscription.created_at|date:"d/m/Y" }}
+            </p>
             <p>Estes foram os dados que voce nos forneceu em sua inscricao:</p>
             
             <ul>
