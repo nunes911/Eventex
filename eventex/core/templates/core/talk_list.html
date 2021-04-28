@@ -9,12 +9,17 @@
         {% empty %}
         <p>Ainda nao existem palestras de manha.</p>
         {% endfor %}
-        
+
         <h2>Tarde</h2>
         {% for talk in afternoon_talks %}
         {% include 'core/talk_list_snippet.html' with talk=talk only %}
         {% empty %}
         <p>Ainda nao existem palestras de tarde.</p>
+        {% endfor %}
+
+        <h2>Mini-cursos</h2>
+        {% for course in courses %}
+        {% include 'core/talk_list_snippet.html' with talk=course only %}
         {% endfor %}
     </div>
 </section>

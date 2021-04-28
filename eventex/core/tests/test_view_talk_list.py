@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
-from eventex.core.models import Talk, Speaker
+from eventex.core.models import Talk, Speaker, Course
 
 
 class TalkListGet(TestCase):
@@ -15,6 +15,12 @@ class TalkListGet(TestCase):
             start='13:00', 
             description='Descricao da palestra.')
         
+        c1 = Course.objects.create(
+            title='Titulo do Curso', 
+            start='09:00', 
+            description='Descricao do curso.',
+            slots=20)
+        
         speaker = Speaker.objects.create(
             name='Marcus Nunes',
             slug='marcus-nunes',
@@ -23,6 +29,7 @@ class TalkListGet(TestCase):
 
         t1.speakers.add(speaker)
         t2.speakers.add(speaker)
+        c1.speakers.add(speaker)
         
         self.response = self.client.get(r('talk_list'))
 
@@ -38,9 +45,12 @@ class TalkListGet(TestCase):
             (2, 'Titulo da Palestra'),
             (1, '10:00'),
             (1, '13:00'),
-            (2, '/palestrantes/marcus-nunes/'),
-            (2, 'Marcus Nunes'),
-            (2, 'Descricao da palestra.')
+            (3, '/palestrantes/marcus-nunes/'),
+            (3, 'Marcus Nunes'),
+            (2, 'Descricao da palestra.'),
+            (1, 'Titulo do Curso'),
+            (1, '09:00'),
+            (1, 'Descricao do curso.')
         ]
 
         for count, expected in contents:
@@ -48,7 +58,7 @@ class TalkListGet(TestCase):
                 self.assertContains(self.response, expected, count)
     
     def test_context(self):
-        variables = ['morning_talks', 'afternoon_talks']
+        variables = ['morning_talks', 'afternoon_talks', 'courses']
 
         for key in variables:
             with self.subTest():
