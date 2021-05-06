@@ -1,1 +1,2 @@
-gunicorn eventex.wsgi --log-file - --log-level debug
+release: python manage.py migrate
+web: gunicorn eventex.wsgi --preload --log-file -
